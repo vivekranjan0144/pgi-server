@@ -10,8 +10,19 @@ import employeeRoutes from './routes/employee.routes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());  // Enable CORS for frontend communication
+
+// CORS configuration
+const corsOptions = {
+  origin: 'https://orange-ocean-085df1d1e.6.azurestaticapps.net', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow the necessary headers
+  credentials: true, // Allows sending cookies with the request (if needed)
+  
+};
+
+app.use(cors(corsOptions)); // Use the defined CORS configuration
 app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
@@ -41,6 +52,7 @@ app.get('/query', async (req, res) => {
   }
 });
 
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/manager', managerRoutes);
